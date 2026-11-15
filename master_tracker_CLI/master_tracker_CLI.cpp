@@ -29,7 +29,7 @@ int pre_state = login;
 
 std::string buffer;
 std::string AccountID_Input;
-std::string MSG = "";
+std::string login_MSG = "";
 std::string Error_MSG;
 std::string cpr_MSG ="";
 int status_code;
@@ -40,12 +40,12 @@ if(!str.empty() && std::ranges::all_of(str, [](unsigned char c){return std::isxd
     return true;
   }
   else{
-    MSG = "Input does not equal 24 digits";
+    login_MSG = "Input does not equal 24 digits";
     return false;
   }
 }
 else{
-  MSG = "Input was empty or contain a non-hex character ";
+  login_MSG = "Input was empty or contain a non-hex character ";
   return false;
 }
 }
@@ -369,18 +369,18 @@ Component login_screen(ScreenInteractive &screen, int &state){
         std::ofstream file("config.json");
 
         if(!file){
-          MSG = "Error: Could not create config.json";
+          login_MSG = "Error: Could not create config.json";
           return;
         }
 
         file << config_o.dump(2);
 
         if(!file){
-          MSG = "Error: Could not write to config.json";
+          login_MSG = "Error: Could not write to config.json";
           return;
         }
       
-        MSG = "Created config file";
+        login_MSG = "Created config file";
         
         Response grab_profile = Get(Url{"https://api.warframe.com/cdn/getProfileViewingData.php"}, Parameters{{"playerId",AccountID_Input}});
 
@@ -436,7 +436,7 @@ Component login_screen(ScreenInteractive &screen, int &state){
           filler(),
           text("Enter your Warframe AccountID") | hcenter,
           cin->Render() | size(WIDTH, EQUAL, 24) | hcenter | border,
-          text(MSG),
+          text(login_MSG),
           text(std::to_string(status_code)),
           text(cpr_MSG),
           filler(),
