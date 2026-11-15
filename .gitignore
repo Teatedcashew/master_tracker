@@ -1,0 +1,10 @@
+# Ignore everything at the top level...
+/*
+# ...except these
+!/.gitignore
+!/CMakeLists.txt
+!/master_tracker_CLI/
+!/.github/
+
+# macOS junk anywhere
+.DS_Store
